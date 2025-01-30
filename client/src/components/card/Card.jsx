@@ -1,9 +1,9 @@
 import "./cardStyles.css";
 
-const Card = ({ children }) => {
+const Card = ({ children, classNames }) => {
   return (
     <div
-      className="card product-card"
+      className={`card ${classNames}`}
       // style={{ padding: 10, borderRadius: 10, border: "1px solid black" }}
     >
       {children}
