@@ -18,7 +18,6 @@ const router = express.Router();
 //   }
 // });
 
-// router.get("/", productsController.getProducts);
-router.get("/", productsController.getFilteredProducts);
+router.get("/", productsController.getProducts);
 
 export default router;
