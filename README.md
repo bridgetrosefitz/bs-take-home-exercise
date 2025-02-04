@@ -10,14 +10,14 @@
 - PostgreSQL (`createdb` required) https://www.postgresql.org/download/
 - Redis https://redis.io/docs/latest/operate/oss_and_stack/install/install-redis/
 
-2. Clone this updated repo
+1. Clone this updated repo
 
 ```bash
 git clone <repository-url>
 cd <repository-name>
 ```
 
-1. Install packages
+2. Install packages
 
 ```bash
 cd api
@@ -78,41 +78,38 @@ yarn start
 
 ### Design decisions
 
-XXX
+On the frontend...
 
-- Assume updates aren't going to be massive (aka way more read than write), so going to do a cache aside with a TTL of 90 seconds
-  -- how comfortable am I, if I add a new product, for it to show up 1 min later; 1 day later?
-- distributed / Redis caching vs in-app - given that the same data is going to be accessed by most users, it helps more people get faster data (as opposed to every user having to re-request after TTL has expired)
-- Knit together mutliple queries ? Consolidate into one query with all the data I need (but leave the existing one because they asked for it)
-- Considered different queries + caching strategies for query type (e.g. calculating score on server vs get product info) but seeing I delegated filtering to BE, I don't need to worry as much about caching because the calc is way more efficient
-- vegan is missing a value in the readme - I assigned it 1
+- I created some simple reusable components - Card and Pill
+- I opted for css stylesheets using classes (conditional classes in some cases). I created an extra prop on the reusable components so the consumer of these components can add custom styling
+- I conditionally made the score show red or green as a quick visual indicator of the 'quality' of the products
+- I created a pill to visualize the characteristics, for additional information when browsing products, and for some small additional context for the score
+
+On the backend...
+
+- I chose a sql database because I thought the data could be organized into clear relationships with a join table connecting products and characteristics
+- I decided to set up my db using pg, because I had to create and seed three tables only. I thought it was simpler in terms of set-up and overhead compared to a more substantial ORM (e.g. Sequelize)
 
 ### Performance considerations
 
-XXX
+- Given the nature of this app as showcasing products, and the instructions stipulating that I should consider caching strategies for performance / optimize for performance at scale, I generally made an assumption that we could have 1000s+ of products and a large number of characteristics
+- The above assumption influenced a few of my choices:
+  - distributed caching using Redis, so we can store common query results and share them across multiple users / machines (otherwise, depending on the TTL, a user's experience could be frequently affected by a noticeable latency). I assumed that requests to the products page would be very similar across many users. I used a cache-aside approach based on an assumption that the ratio of read to write for product details will be high (e.g. substantially more users viewing products than store-owners or website admins updating product info)
+  - I considered calculating the product scores on the front-end and then caching them; I also considered calculating a score on-create of a product and storing it in the db; however, this would require logic to update the score if any of the score values for a characteristic changed, or if characteristics were added / removed from a product
+  - I therefore went for the approach of calculating the score in a sql query directly to the db, using the score_value attribute on the characteristics table. This calculation is much more efficient when done by the db, and will not block the JS thread on the server. An alternative was to use a worker to open a new thread in the server, but it is much more efficient to do this directly from the DB
+- I used pg's Pool so that connections can be shared in times of high traffic, to avoid overloading the server
 
-### If I had more time...
+### If I had more time, I would...
 
-- Full ORM with migrations
-- full testing
-- redis error handling
-- env variables for redis
-- mark redis cookies as secure
-- accessibility, aria labels, images, hosted on CDN
-- maybe use em instead of px
+- actually implement the frontend filtering functionality :( I would enable filtering for multiple characteristics as part of this
+- implement error handling properly on both the server and the frontend
+- implement testing
+- add features to the frontend, including perhaps a photo of each product, stored on a CDN
+- add some kind of context for what the score is in the UI and how the score is calculated
+- improve accessibility, including aria labels
+- consider using em instead of px, holistically across the app (also maybe creating universal styling variables like sm / md / lg font-size)
+- instead of pg, implement a full ORM with migrations
 - thoroughly test setup instructions on another device
-
-### BF TO DO
-
-- Error handling - controller actions
-- Error handling - frontend (e.g. no results when filtering)
-- Error handling - random query params not allowed / no results / all results ?
-- Clean up files (to dos, tests, etc)
-- Check pool / scale-up situation is correct https://node-postgres.com/apis/pool
-- README updates
-- yarn + npm
-- filter by multiple categories
-- testing
 
 ---
 
