@@ -39,6 +39,9 @@ exports.up = pgm => {
       type: "varchar(255)",
       notNull: true,
     },
+    score_value: {
+      type: "smallint",
+    },
     created_at: {
       type: "timestamp with time zone",
       notNull: true,
@@ -60,6 +63,12 @@ exports.up = pgm => {
       type: "integer",
       notNull: true,
       references: '"products"',
+      onDelete: "cascade",
+    },
+    characteristic_id: {
+      type: "integer",
+      notNull: true,
+      references: '"characteristics"',
       onDelete: "cascade",
     },
     created_at: {
