@@ -1,8 +1,8 @@
 import pg from "pg";
 const { Pool } = pg;
 
-const pool = new Pool();
+const pool = new Pool({ database: "berry-street-takehome-1" });
 
-export const query = (text, params, callback) => {
+export const query = async (text, params, callback) => {
   return pool.query(text, params, callback);
 };
