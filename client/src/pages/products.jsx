@@ -13,7 +13,6 @@ const ProductsPage = () => {
       try {
         const response = await axios.get(`${BASE_API_URL}/products`);
         setProducts(response.data);
-        console.log("Products loaded:", response.data);
       } catch (error) {
         console.error("Error fetching products:", error);
       } finally {
