@@ -1,16 +1,15 @@
-import axios from "axios";
-const jsonServerUrl = "http://localhost:4000"; // Adjust if necessary
+import * as db from "../db/index.js";
 
-const getProducts = async (req, res) => {
-  try {
-    const response = await axios.get(
-      `${jsonServerUrl}/products?characteristics[0]=Humane`
-    );
-    res.send(response.data);
-  } catch (error) {
-    console.error("Error fetching posts:", error);
-    res.status(500).send("Error fetching posts");
-  }
+const getFilteredProducts = async (req, res) => {
+  const result = await db.query(
+    `SELECT p.* FROM products p 
+    JOIN products_characteristics pc ON p.id = pc.product_id 
+    JOIN characteristics c ON pc.characteristic_id = c.id 
+    WHERE c.name = $1`,
+    [req.query.characteristic]
+  );
+
+  res.json(result.rows);
 };
 
-export default getProducts;
+export default { getFilteredProducts };
