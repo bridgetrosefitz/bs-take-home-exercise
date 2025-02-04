@@ -1,5 +1,13 @@
+#product-cards-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  width: 100%;
+}
+
 .score-circle {
   background-color: #e0e0e0;
+  font-size: 14px;
   font-weight: bold;
   border-radius: 25px;
   padding: 3px;
@@ -10,6 +18,23 @@
   display: flex;
 }
 
-.score-circle > * {
-  opacity: 1;
+.positive-score {
+  background-color: rgba(0, 128, 0, 0.5);
+}
+
+.negative-score {
+  background-color: rgba(255, 0, 0, 0.5);
+}
+
+.vertical-spaced-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
 }

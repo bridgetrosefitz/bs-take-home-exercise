@@ -1,11 +1,7 @@
 import "./pillStyles.css";
 
-const Pill = ({ children, styles }) => {
-  return (
-    <div className="pill" style={{ ...styles }}>
-      {children}
-    </div>
-  );
+const Pill = ({ children, classNames }) => {
+  return <div className={`pill ${classNames}`}>{children}</div>;
 };
 
 export default Pill;

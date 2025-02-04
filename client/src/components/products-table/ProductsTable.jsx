@@ -2,9 +2,9 @@ import { Card } from "..";
 import { Pill } from "..";
 import "./productsTableStyles.css";
 
-const ScoreCircle = ({ score, styles }) => {
+const ScoreCircle = ({ score, classNames }) => {
   return (
-    <div className="score-circle" style={{ ...styles }}>
+    <div className={`score-circle ${classNames}`}>
       <p>{score}</p>
     </div>
   );
@@ -23,32 +23,14 @@ const ProductsTable = ({ products }) => {
 
       return (
         <Card classNames="product-card" key={id}>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-between",
-              height: "100%",
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "baseline",
-              }}
-            >
+          <div className="vertical-spaced-container">
+            <div className="header-section">
               <h3>{name}</h3>
               <ScoreCircle
                 score={total_score}
-                styles={{
-                  fontSize: 14,
-                  // backgroundColor: total_score > 0 ? "green" : "red",
-                  backgroundColor:
-                    total_score > 0
-                      ? "rgba(0, 128, 0, 0.5)"
-                      : "rgba(255, 0, 0, 0.5)",
-                }}
+                classNames={
+                  total_score > 0 ? "positive-score" : "negative-score"
+                }
               />
             </div>
             {characteristicsLabels}
@@ -58,18 +40,7 @@ const ProductsTable = ({ products }) => {
     }
   );
 
-  return (
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(3, 1fr)",
-        gap: 10,
-        width: "100%",
-      }}
-    >
-      {productCells}
-    </div>
-  );
+  return <div id="product-cards-container">{productCells}</div>;
 };
 
 export default ProductsTable;
