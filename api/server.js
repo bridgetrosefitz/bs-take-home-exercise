@@ -1,7 +1,6 @@
 import express from "express";
 import redis from "redis";
 import productsRouter from "./routes/products.js";
-import testRouter from "./routes/test.js";
 import cors from "cors";
 import "dotenv/config";
 
@@ -22,7 +21,6 @@ app.use(express.json());
 
 // Use the routes
 app.use("/products", productsRouter);
-app.use("/test", testRouter);
 
 app.get("/", (_req, res) => {
   res.send("Hello from Express!");

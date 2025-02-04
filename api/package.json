@@ -7,8 +7,7 @@
   "scripts": {
     "dev": "node server.js",
     "dev:watch": "nodemon server.js",
-    "mock": "json-server --watch db/db.json --port 4000",
-    "start": "concurrently \"npm run dev:watch\" \"npm run mock\"",
+    "start": "npm run dev:watch",
     "migrate": "node-pg-migrate"
   },
   "keywords": [],
