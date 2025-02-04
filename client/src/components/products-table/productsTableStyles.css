@@ -1,5 +1,6 @@
 .score-circle {
   background-color: #e0e0e0;
+  font-weight: bold;
   border-radius: 25px;
   padding: 3px;
   height: 20px;
@@ -7,4 +8,8 @@
   align-items: center;
   justify-content: center;
   display: flex;
+}
+
+.score-circle > * {
+  opacity: 1;
 }

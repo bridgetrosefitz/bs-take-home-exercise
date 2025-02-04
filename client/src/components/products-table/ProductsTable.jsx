@@ -2,19 +2,23 @@ import { Card } from "..";
 import { Pill } from "..";
 import "./productsTableStyles.css";
 
-const ScoreCircle = ({ score }) => {
-  return <div className="score-circle">{score}</div>;
+const ScoreCircle = ({ score, styles }) => {
+  return (
+    <div className="score-circle" style={{ ...styles }}>
+      <p>{score}</p>
+    </div>
+  );
 };
 
 const ProductsTable = ({ products }) => {
   const productCells = products.map(
     ({ id, name, total_score, characteristics }) => {
-      const characteristicsLabels = characteristics.map(
-        (characteristic, index) => (
-          <Pill key={characteristic + index} styles={{ fontSize: 14 }}>
-            {characteristic}
-          </Pill>
-        )
+      const characteristicsLabels = (
+        <div>
+          {characteristics.map((characteristic, index) => (
+            <Pill key={characteristic + index}>{characteristic}</Pill>
+          ))}
+        </div>
       );
 
       return (
@@ -22,14 +26,33 @@ const ProductsTable = ({ products }) => {
           <div
             style={{
               display: "flex",
+              flexDirection: "column",
               justifyContent: "space-between",
-              alignItems: "baseline",
+              height: "100%",
             }}
           >
-            <h3>{name}</h3>
-            <ScoreCircle score={total_score} />
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "baseline",
+              }}
+            >
+              <h3>{name}</h3>
+              <ScoreCircle
+                score={total_score}
+                styles={{
+                  fontSize: 14,
+                  // backgroundColor: total_score > 0 ? "green" : "red",
+                  backgroundColor:
+                    total_score > 0
+                      ? "rgba(0, 128, 0, 0.5)"
+                      : "rgba(255, 0, 0, 0.5)",
+                }}
+              />
+            </div>
+            {characteristicsLabels}
           </div>
-          {characteristicsLabels}
         </Card>
       );
     }
