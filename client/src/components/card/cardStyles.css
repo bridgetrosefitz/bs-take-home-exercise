@@ -1,5 +1,5 @@
 .card {
-  background-color: "grey";
+  background-color: #fff;
   padding: 20px;
   border-radius: 8px;
   border: 1px solid #ddd;
@@ -9,8 +9,4 @@
 .products-container {
   display: flex;
   justify-content: center;
-}
-
-.product-card {
-  /* width: fit-content; */
 }

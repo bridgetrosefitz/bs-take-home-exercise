@@ -1,0 +1,9 @@
+.pill {
+  min-width: 10px;
+  border-radius: 8px;
+  background-color: #e0e0e0;
+  width: fit-content;
+  padding: 2px 8px 2px 8px;
+  display: inline-block;
+  margin: 2px;
+}
