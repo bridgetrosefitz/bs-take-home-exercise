@@ -2,13 +2,13 @@
 
 ## Bridget Fitzgerald - Notes
 
-### Setup instructions
-
 ### Prerequisites
 
 - Node.js (v14+ recommended) and npm
 - PostgreSQL (`createdb` required) https://www.postgresql.org/download/
 - Redis https://redis.io/docs/latest/operate/oss_and_stack/install/install-redis/
+
+### Setup instructions
 
 1. Clone this updated repo
 
