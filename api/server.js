@@ -1,4 +1,5 @@
 import express from "express";
+import redis from "redis";
 import productsRouter from "./routes/products.js";
 import testRouter from "./routes/test.js";
 import cors from "cors";
@@ -6,6 +7,12 @@ import "dotenv/config";
 
 const app = express();
 const PORT = 3005;
+export const redisClient = await redis
+  .createClient()
+  .on("error", err => {
+    console.error("Redis Client Error", err);
+  })
+  .connect();
 
 // Enable CORS for all routes
 app.use(cors());
