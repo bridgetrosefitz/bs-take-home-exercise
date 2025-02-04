@@ -24,6 +24,12 @@ XXX
 ### If I had more time...
 
 - Full ORM with migrations
+- full testing
+- redis error handling
+- env variables for redis
+- mark redis cookies as secure
+- accessibility, aria labels, images, hosted on CDN
+- maybe use em instead of px
 
 ### BF TO DO
 
@@ -35,6 +41,7 @@ XXX
 - README updates
 - yarn + npm
 - filter by multiple categories
+- testing
 
 ---
 
