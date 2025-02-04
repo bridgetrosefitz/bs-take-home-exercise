@@ -4,8 +4,77 @@
 
 ### Setup instructions
 
-- postgres
-- vegan is missing a value in the readme - I assigned it 1
+### Prerequisites
+
+- Node.js (v14+ recommended) and npm
+- PostgreSQL (`createdb` required) https://www.postgresql.org/download/
+- Redis https://redis.io/docs/latest/operate/oss_and_stack/install/install-redis/
+
+2. Clone this updated repo
+
+```bash
+git clone <repository-url>
+cd <repository-name>
+```
+
+1. Install packages
+
+```bash
+cd api
+yarn install
+yarn start
+```
+
+3. Create and set up database
+
+```
+createdb berry-street-takehome-1
+```
+
+4. Create a .env file
+
+Create a .env file in the api directory and add the following line.
+
+```
+DATABASE_URL=postgres://localhost:5432/berry-street-takehome-1
+```
+
+NOTE: Depending on your postresql set-up, you may need to also include a username and password in the `DATABASE_URL`. Replace in the below URL with your values as required.
+
+```
+postgres://username:password@localhost:5432/berry-street-takehome-1
+```
+
+In this case, you will also need to add user and password as properties on the `pg` config object on line 4 in `index.js`
+
+```
+const pool = new Pool({
+  user: "your_username",
+  password: "your_password",
+  database: "berry-street-takehome-1",
+  max: 20,
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 2000,
+});
+```
+
+Also, add `.env` as a line in the .gitignore file.
+
+5. Run migrations
+
+```
+npm run migrate up
+```
+
+https://classic.yarnpkg.com/en/package/node-pg-migrate
+
+6. Run server (incl. redis server), and app
+
+```bash
+yarn start
+cd ../client
+yarn start
+```
 
 ### Design decisions
 
@@ -16,6 +85,7 @@ XXX
 - distributed / Redis caching vs in-app - given that the same data is going to be accessed by most users, it helps more people get faster data (as opposed to every user having to re-request after TTL has expired)
 - Knit together mutliple queries ? Consolidate into one query with all the data I need (but leave the existing one because they asked for it)
 - Considered different queries + caching strategies for query type (e.g. calculating score on server vs get product info) but seeing I delegated filtering to BE, I don't need to worry as much about caching because the calc is way more efficient
+- vegan is missing a value in the readme - I assigned it 1
 
 ### Performance considerations
 
@@ -30,6 +100,7 @@ XXX
 - mark redis cookies as secure
 - accessibility, aria labels, images, hosted on CDN
 - maybe use em instead of px
+- thoroughly test setup instructions on another device
 
 ### BF TO DO
 
