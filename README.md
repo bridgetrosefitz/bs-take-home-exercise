@@ -4,11 +4,18 @@
 
 ### Setup instructions
 
-XXX
+- postgres
+- vegan is missing a value in the readme - I assigned it 1
 
 ### Design decisions
 
 XXX
+
+- Assume updates aren't going to be massive (aka way more read than write), so going to do a cache aside with a TTL of 90 seconds
+  -- how comfortable am I, if I add a new product, for it to show up 1 min later; 1 day later?
+- distributed / Redis caching vs in-app - given that the same data is going to be accessed by most users, it helps more people get faster data (as opposed to every user having to re-request after TTL has expired)
+- Knit together mutliple queries ? Consolidate into one query with all the data I need (but leave the existing one because they asked for it)
+- Considered different queries + caching strategies for query type (e.g. calculating score on server vs get product info) but seeing I delegated filtering to BE, I don't need to worry as much about caching because the calc is way more efficient
 
 ### Performance considerations
 
@@ -16,7 +23,18 @@ XXX
 
 ### If I had more time...
 
-XXX
+- Full ORM with migrations
+
+### BF TO DO
+
+- Error handling - controller actions
+- Error handling - frontend (e.g. no results when filtering)
+- Error handling - random query params not allowed / no results / all results ?
+- Clean up files (to dos, tests, etc)
+- Check pool / scale-up situation is correct https://node-postgres.com/apis/pool
+- README updates
+- yarn + npm
+- filter by multiple categories
 
 ---
 
