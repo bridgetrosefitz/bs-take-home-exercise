@@ -1,6 +1,7 @@
 import * as db from "../db/index.js";
 
 const getFilteredProducts = async (req, res) => {
+  // TO DO: Error handling
   const result = await db.query(
     `SELECT p.* FROM products p 
     JOIN products_characteristics pc ON p.id = pc.product_id 
@@ -12,4 +13,20 @@ const getFilteredProducts = async (req, res) => {
   res.json(result.rows);
 };
 
-export default { getFilteredProducts };
+const getProductScores = async (_req, res) => {
+  // TO DO: Error handling
+  const results = await db.query(
+    `SELECT p.name AS product_name,
+    COALESCE(SUM(c.score_value), 0) AS total_score
+    FROM products p
+    LEFT JOIN products_characteristics pc ON p.id = pc.product_id
+    LEFT JOIN characteristics c ON pc.characteristic_id = c.id
+    GROUP BY p.name
+    ORDER BY total_score DESC
+    `
+  );
+
+  res.json(results.rows);
+};
+
+export default { getFilteredProducts, getProductScores };
